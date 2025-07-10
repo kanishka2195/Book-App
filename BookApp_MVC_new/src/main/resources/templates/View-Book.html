@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details - Book App</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="view-book-bg">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Animated background particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <header>
+    <nav>
+      <a th:href="@{/}" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">BookApp</span>
+      </a>
+      <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">🏠 Home</a>
+        <a th:href="@{/view-books}" class="nav-link">📚 All Books</a>
+        <a th:href="@{/search}" class="nav-link">🔍 Search</a>
+        <a th:href="@{'/editBook/' + ${book.id}}" class="nav-link auth-only">✏️ Edit</a>
+        <a th:href="@{/print-details}" class="nav-link auth-only" id="printBtn">🖨️ Print</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="book-details-container glass" id="bookDetails">
+    <div class="book-details-header">
+      <h2>📖 Book Details</h2>
+      <p class="details-subtitle">Complete information about this book</p>
+    </div>
+
+    <div class="book-details-content">
+      <div class="book-image-section">
+        <img th:src="${book.imageUrl != null} ? ${book.imageUrl} : '@{/images/default-book.png}'" alt="Book Cover" class="book-cover">
+        <div class="book-actions">
+          <button class="btn gradient btn-primary">
+            <span class="btn-icon">👁️</span>
+            <span>View Full Size</span>
+          </button>
+          <button class="btn gradient-alt">
+            <span class="btn-icon">📥</span>
+            <span class="auth-only">Download Cover</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="book-info-section">
+        <div class="book-title-section">
+          <h1 th:text="${book.name}">Book Title</h1>
+          <div class="book-badge" th:text="${book.genre}">Genre</div>
+        </div>
+
+        <div class="book-meta">
+          <div class="meta-item">
+            <span class="meta-label">✍️ Author:</span>
+            <span class="meta-value" th:text="${book.author}">Author</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">🏢 Publisher:</span>
+            <span class="meta-value" th:text="${book.publisher}">Publisher</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">💰 Price:</span>
+            <span class="meta-value price" th:text="'₹' + ${book.price}">Price</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">📅 Published:</span>
+            <span class="meta-value" th:text="${book.publishedYear}">Year</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">📏 Pages:</span>
+            <span class="meta-value" th:text="${book.pages}">Pages</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">📚 Genre:</span>
+            <span class="meta-value" th:text="${book.genre}">Genre</span>
+          </div>
+        </div>
+
+        <div class="book-description">
+          <h3>📝 Description</h3>
+          <p th:text="${book.description}">Book Description</p>
+        </div>
+
+        <div class="book-stats">
+          <div class="stat">
+            <span class="stat-number" th:text="${book.rating}">4.5</span>
+            <span class="stat-label">Rating</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" th:text="${book.copiesSold}">1.2M</span>
+            <span class="stat-label">Copies Sold</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" th:text="${book.yearsOld}">95</span>
+            <span class="stat-label">Years Old</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating elements -->
+  <div class="floating-elements">
+    <div class="floating-element element-1">📖</div>
+    <div class="floating-element element-2">✏️</div>
+    <div class="floating-element element-3">🔍</div>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>

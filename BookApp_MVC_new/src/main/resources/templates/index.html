@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book App - Welcome</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="landing">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4">
+  </video>
+
+  <!-- Animated background particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="overlay">
+    <header>
+      <nav>
+        <a th:href="@{/}" class="logo">
+          <span class="logo-icon">📚</span>
+          <span class="logo-text">BookApp</span>
+        </a>
+        <div class="nav-links">
+          <a th:href="@{/login}" class="nav-link">Admin Login</a>
+          <a th:href="@{/view-books}" class="nav-link">Browse Books</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>✨ Modern Library Management</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-line">Discover, Manage, and</span>
+          <span class="title-line highlight">Print Your Library</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Experience the future of book management with our cutting-edge platform designed for admins and readers alike
+        </p>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">1000+</span>
+            <span class="stat-label">Books</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Authors</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Access</span>
+          </div>
+        </div>
+
+        <div class="cta-buttons">
+          <a th:href="@{/login}" class="btn gradient btn-primary">
+            <span class="btn-icon">🔐</span>
+            <span>Admin Login</span>
+          </a>
+          <a th:href="@{/view-books}" class="btn gradient-alt btn-secondary">
+            <span class="btn-icon">📖</span>
+            <span>Browse Books</span>
+          </a>
+        </div>
+
+        <div class="scroll-indicator">
+          <div class="scroll-arrow"></div>
+          <span>Scroll to explore</span>
+        </div>
+      </div>
+
+      <!-- Floating book cards -->
+      <div class="floating-cards">
+        <div class="floating-card card-1">
+          <div class="card-content">
+            <h3>The Great Gatsby</h3>
+            <p>F. Scott Fitzgerald</p>
+          </div>
+        </div>
+        <div class="floating-card card-2">
+          <div class="card-content">
+            <h3>1984</h3>
+            <p>George Orwell</p>
+          </div>
+        </div>
+        <div class="floating-card card-3">
+          <div class="card-content">
+            <h3>Pride & Prejudice</h3>
+            <p>Jane Austen</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Features section -->
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">📚</div>
+        <h3>Easy Management</h3>
+        <p>Add, edit, and organize books effortlessly</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <h3>Smart Search</h3>
+        <p>Find any book instantly with advanced search</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🖨️</div>
+        <h3>Print Ready</h3>
+        <p>Generate beautiful print layouts</p>
+      </div>
+    </section>
+
+    <!-- Search Books Section -->
+    <section class="search-section">
+      <div class="search-section-content">
+        <div class="search-section-header">
+          <h2>🔍 Search Your Library</h2>
+          <p>Find any book by title, author, or publisher instantly</p>
+        </div>
+
+        <form class="hero-search-form" id="heroSearchForm" th:action="@{/SearchBooks}" method="post">
+          <div class="hero-search-input-wrapper">
+            <input type="text" id="heroSearchInput" name="name" placeholder="Search for books, authors, or publishers..." required>
+            <div class="hero-search-icon">🔍</div>
+            <button type="submit" class="btn gradient btn-primary">
+              <span class="btn-icon">🚀</span>
+              <span>Search</span>
+            </button>
+          </div>
+
+          <div class="hero-search-filters">
+            <div class="filter-group">
+              <label>Filter by:</label>
+              <select id="heroFilterType">
+                <option value="all">All Fields</option>
+                <option value="title">Title Only</option>
+                <option value="author">Author Only</option>
+                <option value="publisher">Publisher Only</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Sort by:</label>
+              <select id="heroSortBy">
+                <option value="title">Title A-Z</option>
+                <option value="author">Author A-Z</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <div class="hero-search-results" id="heroSearchResults">
+          <div class="results-header">
+            <h3>Popular Books</h3>
+            <span class="results-count">3 books found</span>
+          </div>
+
+          <div class="hero-books-grid">
+            <!-- static placeholders, can be looped later with Thymeleaf if dynamic -->
+            <div class="book-card fade-in">
+              <div class="card-image">
+                <img src="https://via.placeholder.com/300x400/4f46e5/ffffff?text=The+Great+Gatsby" alt="Book Cover">
+                <div class="card-overlay">
+                  <div class="card-actions">
+                    <button class="btn btn-small gradient">👁️ View</button>
+                    <button class="btn btn-small gradient-alt">📖 Read</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-content">
+                <h3>The Great Gatsby</h3>
+                <p class="author">F. Scott Fitzgerald</p>
+                <p class="publisher">Scribner</p>
+                <p class="price">$12.99</p>
+              </div>
+            </div>
+
+            <!-- ... More cards -->
+          </div>
+
+          <div class="hero-search-actions">
+            <a th:href="@{/search}" class="btn gradient-alt">
+              <span class="btn-icon">🔍</span>
+              <span>Advanced Search</span>
+            </a>
+            <a th:href="@{/view-books}" class="btn">
+              <span class="btn-icon">📚</span>
+              <span>View All Books</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 320">
+      <path fill="#4f46e5" fill-opacity="1"
+        d="M0,224L48,197.3C96,171,192,117,288,117.3C384,117,480,171,576,197.3C672,224,768,224,864,197.3C960,171,1056,117,1152,101.3C1248,85,1344,107,1392,117.3L1440,128L1440,320L0,320Z">
+      </path>
+    </svg>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>

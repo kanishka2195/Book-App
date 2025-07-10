@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Print All Books - Book App</title>
+  <link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body class="print-books-bg">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Animated background particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <header>
+    <nav>
+      <a th:href="@{/}" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">BookApp</span>
+      </a>
+      <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">🏠 Home</a>
+        <a th:href="@{/view-books}" class="nav-link">📚 All Books</a>
+        <a th:href="@{/search}" class="nav-link">🔍 Search</a>
+        <a th:href="@{/admin-home}" class="nav-link">⚙️ Admin</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="print-books-container glass">
+    <div class="print-header">
+      <h2>🖨️ Print Library Catalog</h2>
+      <p class="print-subtitle">Generate a printable list of all your books</p>
+    </div>
+
+    <div class="print-stats">
+      <div class="stat">
+        <span class="stat-number" th:text="${books.size()}">0</span>
+        <span class="stat-label">Total Books</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" th:text="'₹' + ${#numbers.formatDecimal(#lists.sum(books, 'price'), 1, 2)}">₹0.00</span>
+        <span class="stat-label">Total Value</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">540</span> <!-- Optional: dynamically calculate if page count available -->
+        <span class="stat-label">Total Pages</span>
+      </div>
+    </div>
+
+    <div class="print-options">
+      <div class="option-group">
+        <label>📋 Print Format:</label>
+        <select id="printFormat">
+          <option value="simple">Simple List</option>
+          <option value="detailed">Detailed List</option>
+          <option value="catalog">Catalog Style</option>
+        </select>
+      </div>
+      <div class="option-group">
+        <label>📄 Page Size:</label>
+        <select id="pageSize">
+          <option value="a4">A4</option>
+          <option value="letter">Letter</option>
+          <option value="legal">Legal</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="books-list-section">
+      <h3>📚 Book Titles</h3>
+      <ul id="bookTitlesList" class="books-list">
+        <li th:each="b, iterStat : ${books}" class="book-item">
+          <span class="book-number" th:text="${iterStat.count} + '.'"></span>
+          <span class="book-title" th:text="${b.name}">Book Title</span>
+          <span class="book-author">by <span th:text="${b.author}">Author</span></span>
+          <span class="book-price" th:text="'₹' + ${b.price}">₹0.00</span>
+        </li>
+      </ul>
+      <div th:if="${#lists.isEmpty(books)}" class="empty-msg">
+        <p>No books available to print.</p>
+      </div>
+    </div>
+
+    <div class="print-actions">
+      <button class="btn gradient btn-primary auth-only" onclick="window.print()">
+        <span class="btn-icon">🖨️</span>
+        <span>Print Catalog</span>
+      </button>
+      <button class="btn gradient-alt auth-only" onclick="exportToPDF()">
+        <span class="btn-icon">📄</span>
+        <span>Export PDF</span>
+      </button>
+      <button class="btn auth-only" onclick="copyToClipboard()">
+        <span class="btn-icon">📋</span>
+        <span>Copy List</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- Floating elements -->
+  <div class="floating-elements">
+    <div class="floating-element element-1">📖</div>
+    <div class="floating-element element-2">✏️</div>
+    <div class="floating-element element-3">🔍</div>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>

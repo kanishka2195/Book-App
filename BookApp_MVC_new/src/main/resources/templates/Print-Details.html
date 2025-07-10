@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Print Book Details - Book App</title>
+  <link rel="stylesheet" th:href="@{/style.css}" />
+  <style>
+    @media print { 
+      body { background: #fff !important; color: #000 !important; } 
+      .no-print { display: none !important; }
+      .particles, .floating-elements { display: none !important; }
+      #bg-video { display: none !important; }
+      .glass { background: #fff !important; box-shadow: none !important; border: 1px solid #ddd !important; }
+    }
+  </style>
+</head>
+<body class="print-details-bg">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Animated background particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <main class="print-details-container glass">
+    <div class="print-details-header">
+      <h2>🖨️ Print Book Details</h2>
+      <p class="print-subtitle">Generate a printable version of book information</p>
+    </div>
+
+    <div id="printBookDetails" class="print-book-content">
+      <div class="print-book-header">
+        <div class="print-book-image">
+          <img th:src="${book.imageUrl != null} ? ${book.imageUrl} : '@{/images/default-book.png}'" alt="Book Cover" />
+        </div>
+        <div class="print-book-info">
+          <h1 th:text="${book.name}">Book Name</h1>
+          <div class="print-book-badge" th:text="${book.genre}">Genre</div>
+          <div class="print-book-meta">
+            <p><strong>Author:</strong> <span th:text="${book.author}">Author Name</span></p>
+            <p><strong>Publisher:</strong> <span th:text="${book.publisher}">Publisher</span></p>
+            <p><strong>Price:</strong> ₹<span th:text="${book.price}">0.00</span></p>
+            <p><strong>Published:</strong> <span th:text="${book.publishedYear}">Year</span></p>
+            <p><strong>Pages:</strong> <span th:text="${book.pages}">0</span></p>
+            <p><strong>Genre:</strong> <span th:text="${book.genre}">Genre</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="print-book-description">
+        <h3>Description</h3>
+        <p th:text="${book.description}">Book description goes here...</p>
+      </div>
+
+      <div class="print-book-stats">
+        <h3>Book Statistics</h3>
+        <div class="print-stats-grid">
+          <div class="print-stat">
+            <span class="print-stat-number" th:text="${book.rating}">4.5</span>
+            <span class="print-stat-label">Rating</span>
+          </div>
+          <div class="print-stat">
+            <span class="print-stat-number" th:text="${book.copiesSold}">1.2M</span>
+            <span class="print-stat-label">Copies Sold</span>
+          </div>
+          <div class="print-stat">
+            <span class="print-stat-number" th:text="${#dates.year(#dates.createNow()) - book.publishedYear}">0</span>
+            <span class="print-stat-label">Years Old</span>
+          </div>
+          <div class="print-stat">
+            <span class="print-stat-number" th:text="${book.pages}">0</span>
+            <span class="print-stat-label">Pages</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="print-book-footer">
+        <p><strong>Library:</strong> BookApp Digital Library</p>
+        <p><strong>Generated:</strong> <span th:text="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm')}"></span></p>
+        <p><strong>Catalog ID:</strong> <span th:text="${book.catalogId}">BK-001</span></p>
+      </div>
+    </div>
+
+    <div class="print-actions no-print">
+      <button class="btn gradient btn-primary auth-only" onclick="window.print()">
+        <span class="btn-icon">🖨️</span>
+        <span>Print Details</span>
+      </button>
+      <button class="btn gradient-alt" onclick="exportToPDF()">
+        <span class="btn-icon">📄</span>
+        <span>Export PDF</span>
+      </button>
+      <button class="btn" onclick="history.back()">
+        <span class="btn-icon">⬅️</span>
+        <span>Go Back</span>
+      </button>
+    </div>
+  </main>
+
+  <div class="floating-elements">
+    <div class="floating-element element-1">📖</div>
+    <div class="floating-element element-2">✏️</div>
+    <div class="floating-element element-3">🔍</div>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>

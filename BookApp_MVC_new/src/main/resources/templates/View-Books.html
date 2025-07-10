@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Books - Book App</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="view-books-bg">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Animated background particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <header>
+    <nav>
+      <a th:href="@{/}" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">BookApp</span>
+      </a>
+      <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">🏠 Home</a>
+        <a th:href="@{/admin-home}" class="nav-link">⚙️ Admin</a>
+        <a th:href="@{/search}" class="nav-link">🔍 Search</a>
+        <a th:href="@{/print-books}" class="nav-link auth-only">🖨️ Print</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="view-books-main">
+    <div class="page-header">
+      <h1>📚 Your Library Collection</h1>
+      <p class="page-subtitle">Discover and manage all your books</p>
+      <div class="page-stats">
+        <div class="stat">
+          <span class="stat-number" th:text="${totalBooks}">0</span>
+          <span class="stat-label">Total Books</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" th:text="${totalAuthors}">0</span>
+          <span class="stat-label">Authors</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" th:text="${totalValue}">₹0</span>
+          <span class="stat-label">Total Value</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="books-grid" id="booksGrid">
+      <div class="book-card fade-in" th:each="book : ${books}">
+        <div class="card-image">
+          <img th:src="${book.imageUrl != null} ? ${book.imageUrl} : '@{/images/default-book.png}'" alt="Book Cover">
+          <div class="card-overlay">
+            <div class="card-actions">
+              <a th:href="@{'/view-book/' + ${book.id}}" class="btn btn-small gradient">👁️ View</a>
+              <a th:href="@{'/editBook/' + ${book.id}}" class="btn btn-small gradient-alt auth-only">✏️ Edit</a>
+              <a th:href="@{'/download/' + ${book.id}}" class="btn btn-small auth-only">📥 Download</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3 th:text="${book.name}">Book Title</h3>
+          <p class="author" th:text="${book.author}">Author</p>
+          <p class="publisher" th:text="${book.publisher}">Publisher</p>
+          <p class="price" th:text="'₹' + ${book.price}">Price</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(books)}">
+      <div class="empty-icon">📚</div>
+      <h3>No Books Found</h3>
+      <p>Start building your library by adding your first book</p>
+      <a th:href="@{/admin-home}" class="btn gradient">➕ Add First Book</a>
+    </div>
+  </main>
+
+  <!-- Floating elements -->
+  <div class="floating-elements">
+    <div class="floating-element element-1">📖</div>
+    <div class="floating-element element-2">✏️</div>
+    <div class="floating-element element-3">🔍</div>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>

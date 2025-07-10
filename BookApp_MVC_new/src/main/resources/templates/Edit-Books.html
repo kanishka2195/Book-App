@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Book - Book App</title>
+  <link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body class="edit-book-bg">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Background particles -->
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <a th:href="@{/}" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">BookApp</span>
+      </a>
+      <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">🏠 Home</a>
+        <a th:href="@{/view-books}" class="nav-link">📚 All Books</a>
+        <a th:href="@{/search}" class="nav-link">🔍 Search</a>
+        <a th:href="@{/view-book}" class="nav-link">👁️ View Book</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Edit Form -->
+  <main class="edit-book-form-container glass">
+    <div class="form-header">
+      <h2>✏️ Edit Book</h2>
+      <p class="form-subtitle">Update book information and details</p>
+    </div>
+
+    <form th:action="@{/updateBook}" method="post" th:object="${book}" enctype="multipart/form-data">
+      <input type="hidden" th:field="*{id}" />
+
+      <div class="form-row">
+        <div class="form-group floating-label">
+          <input type="text" id="editBookName" th:field="*{name}" required />
+          <label for="editBookName">📖 Book Name</label>
+          <div class="input-icon">📖</div>
+        </div>
+        <div class="form-group floating-label">
+          <input type="text" id="editAuthor" th:field="*{author}" required />
+          <label for="editAuthor">✍️ Author</label>
+          <div class="input-icon">✍️</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group floating-label">
+          <input type="text" id="editPublisher" th:field="*{publisher}" required />
+          <label for="editPublisher">🏢 Publisher</label>
+          <div class="input-icon">🏢</div>
+        </div>
+        <div class="form-group floating-label">
+          <input type="number" id="editPrice" th:field="*{price}" min="0" step="0.01" required />
+          <label for="editPrice">💰 Price</label>
+          <div class="input-icon">💰</div>
+        </div>
+      </div>
+
+      <div class="form-group floating-label">
+        <textarea id="editDescription" th:field="*{description}" rows="4" required></textarea>
+        <label for="editDescription">📝 Description</label>
+        <div class="input-icon">📝</div>
+      </div>
+
+      <div class="form-group file-upload">
+        <label for="editImage">🖼️ Update Book Image</label>
+        <div class="file-input-wrapper">
+          <input type="file" id="editImage" name="image" accept="image/*" />
+          <div class="file-input-label">
+            <span class="file-icon">📁</span>
+            <span>Choose a new image (optional)</span>
+          </div>
+        </div>
+        <div class="current-image">
+          <img th:src="${book.imageUrl != null} ? ${book.imageUrl} : @{/images/default-book.png}" alt="Current Cover" />
+          <span>Current Cover</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="edit-actions">
+        <button type="submit" class="btn gradient btn-primary">
+          <span class="btn-icon">💾</span>
+          <span>Save Changes</span>
+        </button>
+        <a th:href="@{/view-books}" class="btn">
+          <span class="btn-icon">❌</span>
+          <span>Cancel</span>
+        </a>
+        <a th:href="@{'/deleteBook/' + ${book.id}}" class="btn btn-danger auth-only">
+          <span class="btn-icon">🗑️</span>
+          <span>Delete Book</span>
+        </a>
+      </div>
+    </form>
+  </main>
+
+  <!-- Floating emojis -->
+  <div class="floating-elements">
+    <div class="floating-element element-1">📖</div>
+    <div class="floating-element element-2">✏️</div>
+    <div class="floating-element element-3">🔍</div>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>

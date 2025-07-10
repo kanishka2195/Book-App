@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Books - Book App</title>
+  <link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body class="search-bg">
+
+  <video autoplay muted loop id="bg-video">
+    <source th:src="@{/videos/landing-bg.mp4}" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Background particles -->
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <header>
+    <nav>
+      <a th:href="@{/}" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">BookApp</span>
+      </a>
+      <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">🏠 Home</a>
+        <a th:href="@{/view-books}" class="nav-link">📚 All Books</a>
+        <a th:href="@{/admin-home}" class="nav-link">⚙️ Admin</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="search-container glass">
+    <div class="search-header">
+      <h2>🔍 Search Your Library</h2>
+      <p class="search-subtitle">Find any book by title, author, or publisher</p>
+    </div>
+
+    <form th:action="@{/searchBooks}" method="post" class="search-form" id="searchForm">
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" name="name" placeholder="Search by book name, author, or publisher..." required />
+        <div class="search-icon">🔍</div>
+        <button type="submit" class="btn gradient btn-primary">
+          <span class="btn-icon">🚀</span>
+          <span>Search</span>
+        </button>
+      </div>
+
+      <div class="search-filters">
+        <div class="filter-group">
+          <label>Filter by:</label>
+          <select id="filterType" name="filterType">
+            <option value="all">All Fields</option>
+            <option value="title">Title Only</option>
+            <option value="author">Author Only</option>
+            <option value="publisher">Publisher Only</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort by:</label>
+          <select id="sortBy" name="sortBy">
+            <option value="title">Title A-Z</option>
+            <option value="author">Author A-Z</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div class="search-results-header" th:if="${books != null}">
+      <h3>Search Results</h3>
+      <span class="results-count" th:text="${#lists.size(books)} + ' books found'">0 books found</span>
+    </div>
+
+    <div class="search-results-grid" th:if="${books != null and !#lists.isEmpty(books)}">
+      <div class="book-card fade-in" th:each="b : ${books}">
+        <div class="card-image">
+          <img th:src="${b.imageUrl != null} ? ${b.imageUrl} : '@{/images/default-book.png}'" alt="Book Cover" />
+          <div class="card-overlay">
+            <div class="card-actions">
+              <a th:href="@{'/view-book/' + ${b.id}}" class="btn btn-small gradient">👁️ View</a>
+              <a th:href="@{'/editBook/' + ${b.id}}" class="btn btn-small gradient-alt auth-only">✏️ Edit</a>
+              <a th:href="@{'/downloadBook/' + ${b.id}}" class="btn btn-small auth-only">📥 Download</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3 th:text="${b.name}">Book Title</h3>
+          <p class="author" th:text="${b.author}">Author Name</p>
+          <p class="publisher" th:text="${b.publisher}">Publisher Name</p>
+          <p class="price" th:text="'₹' + ${b.price}">Price</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" th:if="${books != null and #lists.isEmpty(books)}">
+      <div class="no-results-icon">🔍</div>
+      <h3>No Books Found</h3>
+      <p>Try adjusting your search terms or filters</p>
+      <a th:href="@{/search}" class="btn gradient">🔍 New Search</a>
+    </div>
+  </main>
+
+  <div class="floating-elements">
+    <div class="floating-element element-1">📖</div>
+    <div class="floating-element element-2">✏️</div>
+    <div class="floating-element element-3">🔍</div>
+  </div>
+
+  <script th:src="@{/script.js}"></script>
+</body>
+</html>
